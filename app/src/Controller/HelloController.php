@@ -22,12 +22,17 @@ class HelloController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(
-        '',
+        '/{name}',
         name: 'hello_index',
-        methods: 'GET'
+        requirements: ['name' => '[A-Za-z]+'],
+        defaults: ['name' => 'World!'],
+        methods: 'GET',
     )]
-    public function index(): Response
+    public function index(string $name): Response
     {
-        return new Response('Hello World!');
+        return $this->render(
+            'hello/index.html.twig', ['name' => $name]
+        );
     }
+
 }
